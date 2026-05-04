@@ -3,7 +3,7 @@
 
 Here is my python source code for Person Re-Identification (Re-ID) - a robust system for matching human identities across different camera views. With my code, you could:
 * Extract discriminative 512-dimensional feature embeddings from human images using a custom ResNet-50 network (`model.py`)
-* Train the model using a Batch Hard Triplet and Loss Cross-Entropy Loss to effectively distinguish different identities (`train.py`)
+* Train the model using a Batch Hard Triplet and Cross-Entropy Loss to effectively distinguish different identities (`train.py`)
 * Build a feature gallery from a database of known identities (`build_gallery.py`)
 * Run an inference app which detects people using YOLOv8 and identifies/tracks them across frames in a single video file (`demo.py`)
 
