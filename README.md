@@ -37,6 +37,15 @@ data/
     ├── bounding_box_test/
     └── query/
 ```
+# Usage Guide
+1. Training
+    ```bash
+    python -m scripts.train 
+    ```
+2. Building Gallery
+    ```bash
+    python -m scripts.build_gallery 
+    ```
 **Building a Custom Gallery for Specific Videos**
 
   Instead of using the default Market-1501 dataset, you can easily create custom galleries tailored for your specific videos. 
@@ -49,6 +58,10 @@ data/
      *Correct Examples:* `0001_front.jpg`, `0002_camera1.jpg`, `JohnDoe_1.jpg`.
   
      *Incorrect Examples:* `front_0001.jpg`, `image1.png`.
+3. Running Demo
+    ```bash
+    python -m scripts.reid_video_demo --config configs/default.yaml --video_path path/to/video.mp4
+    ```
 
 # Dataset
 
