@@ -89,15 +89,6 @@ Components:
 * Dropout (p=0.5)
 * L2 normalization
 * Classifier
-
-# Training
-
-You need to download the **Market-1501** dataset and rename directory to `market1501/`.
-1. The training utilizes a custom `triplet_dataset.py` that automatically samples Anchor, Positive, and Negative images for each identity to form training triplets.
-2. If you want to train your model with a different set of hyper-parameters, you only need to change the arguments (like `lr`, `margin`, `step_size`) in `train.py`.
-3. Then you could simply run PyTorch training using the provided script:
-   `python3 train.py --epochs 60 --batch_size 32 --margin 0.3`
-
 # Experiments
 
 I trained the model for 60 epochs using the Adam optimizer, combining Batch Hard Triplet Loss and Cross-Entropy Loss (with label smoothing). The model's performance was monitored using TensorBoard (saved in `weights/`). During training, the model's Rank-1, Rank-5, and mAP are evaluated on the query set every 5 epochs. 
@@ -107,7 +98,26 @@ I trained the model for 60 epochs using the Adam optimizer, combining Batch Hard
 </p>
 
 As shown in the charts above, the loss converges smoothly, and the model achieves impressive final results on the Market-1501 dataset: **Rank-1 accuracy of ~89.2%**, **Rank-5 accuracy of ~95.7%** and **mAP of ~75.5%**. The checkpoint with the highest Rank-1 score is automatically saved as (`best_model.pth`).
-
+## Repository Structure
+```text
+reid-refactor/
+├── configs/            # YAML configuration files (Hyperparameters)
+├── data/               # Raw and processed datasets (e.g., Market-1501)
+├── models/             # Trained model checkpoints (.pth, .pt)
+├── notebooks/          # Jupyter notebooks for EDA and testing
+├── scripts/            # Entry point scripts for execution
+│   ├── train.py
+│   ├── build_gallery.py
+│   └── reid_video_demo.py
+├── src/                # Core source code (reusable modules)
+│   ├── dataset.py      # Custom Dataset and Dataloader
+│   ├── loss.py         # Loss functions (e.g., Triplet Loss)
+│   ├── metrics.py      # Evaluation metrics (mAP, Rank-1)
+│   └── models/         # Neural Network architectures
+│       └── extractor.py
+├── requirements.txt    # Project dependencies
+└── README.md
+```
 # Requirements
 
 * python 3.8+
