@@ -1,0 +1,6 @@
+video_path: "data/input.mp4"
+output_path: "output_reid.mp4"
+model_weights: "weights/best_model.pth"
+gallery_path: "weights/gallery_market1501.pt"
+threshold: 0.6
+alpha: 0.1

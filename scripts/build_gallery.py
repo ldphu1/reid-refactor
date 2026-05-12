@@ -1,9 +1,11 @@
 import os
 import argparse
+import torch
 from torchvision import transforms
 from PIL import Image
 from tqdm import tqdm
-from model import *
+from src.models.extractor import resnet50_extractor
+import yaml
 
 def get_transform():
     return transforms.Compose([
@@ -63,16 +65,19 @@ def build_gallery(data_dir, model_path, save_path, device):
     }, save_path)
     print("Done!")
 
+def log_config(config_path):
+    with open(config_path) as f:
+        config = yaml.safe_load(f)
+    return config
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Extract and build gallery features for Re-ID")
-    parser.add_argument("--data_dir", type=str, default="../market1501/bounding_box_test", help="Path to gallery images")
-    parser.add_argument("--model_path", type=str, default="../weights/best_model.pth", help="Path to the trained model weights")
-    parser.add_argument("--save_path", type=str, default="../weights/gallery_market1501.pt", help="Path to save the extracted features")
-
+    parser.add_argument("--config", type=str, default=r"src/configs/build_gallery_config.yaml")
     args = parser.parse_args()
+
+    cfg = log_config(args.config)
 
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     print(f"Using device: {device}")
 
-    build_gallery(args.data_dir, args.model_path, args.save_path, device)
+    build_gallery(cfg["data_dir"], cfg["model_path"], cfg["save_path"], device)

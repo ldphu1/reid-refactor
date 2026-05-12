@@ -5,7 +5,8 @@ from PIL import Image
 from torchvision import transforms
 import torch.nn.functional as F
 from ultralytics import YOLO
-from models import model
+from src.models.extractor import resnet50_extractor
+import yaml
 
 def get_transform():
     return transforms.Compose([
@@ -56,20 +57,20 @@ def draw_fancy_bbox(frame, box, label, score, color):
     cv2.putText(frame, text, (x1 + 5, text_y), font, font_scale, (255, 255, 255), thickness, cv2.LINE_AA)
 
 
-def process_video(args, reid_model, detector, gallery_data, transform, device):
+def process_video(reid_model, detector, gallery_data, transform, device):
     gallery_embs = gallery_data["embs"].to(device)
     gallery_ids = gallery_data["ids"]
 
-    cap = cv2.VideoCapture(args.video_path)
+    cap = cv2.VideoCapture(cfg["video_path"])
     if not cap.isOpened():
-        raise FileNotFoundError(f"Can't open video: {args.video_path}")
+        raise FileNotFoundError(f"Can't open video: {cfg["video_path"]}")
 
     width = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
     height = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
     fps = int(cap.get(cv2.CAP_PROP_FPS))
 
     fourcc = cv2.VideoWriter_fourcc(*'mp4v')
-    out = cv2.VideoWriter(args.output_path, fourcc, fps, (width, height))
+    out = cv2.VideoWriter(cfg["output_path"], fourcc, fps, (width, height))
 
     while True:
         flag, frame = cap.read()
@@ -101,14 +102,14 @@ def process_video(args, reid_model, detector, gallery_data, transform, device):
                 avg_emb = new_emb
             else:
                 old_avg_emb = track_identities[track_id]["avg_emb"]
-                avg_emb = args.alpha * new_emb + (1.0 - args.alpha) * old_avg_emb
+                avg_emb = cfg["alpha"] * new_emb + (1.0 - cfg["alpha"]) * old_avg_emb
                 avg_emb = F.normalize(avg_emb, p=2, dim=1)
 
             sims = torch.matmul(avg_emb, gallery_embs.T)
             best_idx = torch.argmax(sims, dim=1).item()
             score = sims[0, best_idx].item()
 
-            if score > args.threshold:
+            if score > cfg["threshold"]:
                 pid = gallery_ids[best_idx]
                 label_infor = {"PID": pid, "score": score, "color": (0, 255, 0), "avg_emb": avg_emb}
 
@@ -126,27 +127,27 @@ def process_video(args, reid_model, detector, gallery_data, transform, device):
     out.release()
     cv2.destroyAllWindows()
 
+def log_config(config_path):
+    with open(config_path, "r") as f:
+        config = yaml.safe_load(f)
+    return config
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("--video_path", type=str, default="../data/video.mp4", help="Path to the original video")
-    parser.add_argument("--output_path", type=str, default="output_reid.mp4", help="Path to save the resulting video")
-    parser.add_argument("--model_weights", type=str, default="../weights/best_model.pth", help="Model weight file")
-    parser.add_argument("--gallery_path", type=str, default="../weights/gallery_market1501.pt", help="Path to gallery file")
-    parser.add_argument("--threshold", type=float, default=0.6, help="threshold")
-    parser.add_argument("--alpha" ,type=float, default=0.1, help="Update rate for the moving average embedding. ")
-
+    parser.add_argument("--config", type=str, default="src/configs/inference_config.yaml")
     args = parser.parse_args()
+
+    cfg = log_config(args.config)
 
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     print(f"Using device: {device}")
 
-    reid_model = model.resnet50_extractor(512)
-    reid_model.load_state_dict(torch.load(args.model_weights, map_location=device))
+    reid_model = resnet50_extractor(512)
+    reid_model.load_state_dict(torch.load(cfg["model_weights"], map_location=device))
     reid_model.to(device)
     reid_model.eval()
 
-    gallery_data = torch.load(args.gallery_path)
+    gallery_data = torch.load(cfg["gallery_path"])
 
     detector = YOLO("yolov8n.pt").to(device)
 
