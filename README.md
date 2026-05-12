@@ -37,9 +37,9 @@ data/
 ```
 # Usage Guide
 1. Training
-    ```bash
-    python -m scripts.train 
-    ```
+```bash
+python -m scripts.train 
+```
 3. Building Gallery
 ```bash
 python -m scripts.build_gallery 
@@ -95,7 +95,7 @@ I trained the model for 60 epochs using the Adam optimizer, combining Batch Hard
 
 As shown in the charts above, the loss converges smoothly, and the model achieves impressive final results on the Market-1501 dataset: **Rank-1 accuracy of ~89.2%**, **Rank-5 accuracy of ~95.7%** and **mAP of ~75.5%**. The checkpoint with the highest Rank-1 score is automatically saved as (`best_model.pth`).
 ## Repository Structure
-    ```
+ ```bash
     reid-refactor/
     ├── configs/            # YAML configuration files (Hyperparameters)
     ├── data/               # Raw and processed datasets (e.g., Market-1501)
@@ -113,7 +113,7 @@ As shown in the charts above, the loss converges smoothly, and the model achieve
     │       └── extractor.py
     ├── requirements.txt    # Project dependencies
     └── README.md
-    ```
+ ```
 # Requirements
 
 * python 3.8+
