@@ -21,10 +21,10 @@ Here is my python source code for Person Re-Identification (Re-ID) - a robust sy
 Clone the repository and install the required packages:
 
     ```bash
-    git clone [https://github.com/your-username/reid-refactor.git](https://github.com/your-username/reid-refactor.git)
-    cd reid-refactor
-    
-    pip install -r requirements.txt
+        git clone [https://github.com/your-username/reid-refactor.git](https://github.com/your-username/reid-refactor.git)
+        cd reid-refactor
+        
+        pip install -r requirements.txt
     ```
 2. Dataset Preparation
    
