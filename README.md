@@ -20,7 +20,7 @@ Here is my python source code for Person Re-Identification (Re-ID) - a robust sy
 
 Clone the repository and install the required packages:
 
-    ```bash
+    ```text
     git clone [https://github.com/your-username/reid-refactor.git](https://github.com/your-username/reid-refactor.git)
     cd reid-refactor 
     pip install -r requirements.txt
@@ -30,7 +30,7 @@ Clone the repository and install the required packages:
    
 Place your datasets in the data/ directory. For example, if using Market-1501:
 
-    ```bash
+    ```text
     data/
     └── Market-1501-v15.09.15/
         ├── bounding_box_train/
