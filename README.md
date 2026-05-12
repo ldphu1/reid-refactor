@@ -20,25 +20,22 @@ Here is my python source code for Person Re-Identification (Re-ID) - a robust sy
 
 Clone the repository and install the required packages:
 
-```bash
-git clone [https://github.com/your-username/reid-refactor.git](https://github.com/your-username/reid-refactor.git)
-cd reid-refactor
-
-python -m venv venv
-source venv/bin/activate  # Trên Windows dùng: venv\Scripts\activate
-
-pip install -r requirements.txt
-```
+    ```bash
+    git clone [https://github.com/your-username/reid-refactor.git](https://github.com/your-username/reid-refactor.git)
+    cd reid-refactor
+    
+    pip install -r requirements.txt
+    ```
 2. Dataset Preparation
    
 Place your datasets in the data/ directory. For example, if using Market-1501:
-```bash
-data/
-└── Market-1501-v15.09.15/
-    ├── bounding_box_train/
-    ├── bounding_box_test/
-    └── query/
-```
+    ```bash
+    data/
+    └── Market-1501-v15.09.15/
+        ├── bounding_box_train/
+        ├── bounding_box_test/
+        └── query/
+    ```
 # Usage Guide
 1. Training
     ```bash
@@ -99,25 +96,25 @@ I trained the model for 60 epochs using the Adam optimizer, combining Batch Hard
 
 As shown in the charts above, the loss converges smoothly, and the model achieves impressive final results on the Market-1501 dataset: **Rank-1 accuracy of ~89.2%**, **Rank-5 accuracy of ~95.7%** and **mAP of ~75.5%**. The checkpoint with the highest Rank-1 score is automatically saved as (`best_model.pth`).
 ## Repository Structure
-```text
-reid-refactor/
-├── configs/            # YAML configuration files (Hyperparameters)
-├── data/               # Raw and processed datasets (e.g., Market-1501)
-├── models/             # Trained model checkpoints (.pth, .pt)
-├── notebooks/          # Jupyter notebooks for EDA and testing
-├── scripts/            # Entry point scripts for execution
-│   ├── train.py
-│   ├── build_gallery.py
-│   └── reid_video_demo.py
-├── src/                # Core source code (reusable modules)
-│   ├── dataset.py      # Custom Dataset and Dataloader
-│   ├── loss.py         # Loss functions (e.g., Triplet Loss)
-│   ├── metrics.py      # Evaluation metrics (mAP, Rank-1)
-│   └── models/         # Neural Network architectures
-│       └── extractor.py
-├── requirements.txt    # Project dependencies
-└── README.md
-```
+    ```text
+    reid-refactor/
+    ├── configs/            # YAML configuration files (Hyperparameters)
+    ├── data/               # Raw and processed datasets (e.g., Market-1501)
+    ├── models/             # Trained model checkpoints (.pth, .pt)
+    ├── notebooks/          # Jupyter notebooks for EDA and testing
+    ├── scripts/            # Entry point scripts for execution
+    │   ├── train.py
+    │   ├── build_gallery.py
+    │   └── reid_video_demo.py
+    ├── src/                # Core source code (reusable modules)
+    │   ├── dataset.py      # Custom Dataset and Dataloader
+    │   ├── loss.py         # Loss functions (e.g., Triplet Loss)
+    │   ├── metrics.py      # Evaluation metrics (mAP, Rank-1)
+    │   └── models/         # Neural Network architectures
+    │       └── extractor.py
+    ├── requirements.txt    # Project dependencies
+    └── README.md
+    ```
 # Requirements
 
 * python 3.8+
