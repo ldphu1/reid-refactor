@@ -44,11 +44,11 @@ python -m scripts.train
 ```bash
 python -m scripts.build_gallery 
 ```
-**Building a Custom Gallery for Specific Videos**
+Building a Custom Gallery for Specific Videos
     
   Instead of using the default Market-1501 dataset, you can easily create custom galleries tailored for your specific videos. 
     
-Prepare the Gallery Folder: Create a new folder (e.g., `my_custom_gallery/`) and place the reference images of the people you want to track inside it.
+  Prepare the Gallery Folder: Create a new folder (e.g., `my_custom_gallery/`) and place the reference images of the people you want to track inside it.
   * Image Format: All images must be in `.jpg` format.
       
   * Naming Convention: The filename **must** start with the Person ID followed by an underscore `_`. The script parses the ID using the string before the first `_`.
