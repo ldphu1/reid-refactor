@@ -1,11 +1,10 @@
 import argparse
-import torch
 from torch.utils.data import DataLoader
 from torchvision import transforms
 from pytorch_metric_learning.samplers import MPerClassSampler
 from torch.optim import Adam
 from torch.utils.tensorboard import SummaryWriter
-from model import *
+from models import model
 from dataset import *
 from loss import *
 from metrics import *
@@ -81,8 +80,8 @@ def main(args):
     query_loader = DataLoader(query_data, batch_size=args.batch_size, shuffle=False, num_workers=args.num_workers)
     gallery_loader = DataLoader(gallery_data, batch_size=args.batch_size, shuffle=False, num_workers=args.num_workers)
 
-    model = resnet50_extractor(embedding_dim=512).to(device)
-    optimizer = Adam(model.parameters(), lr=args.lr, weight_decay=args.weight_decay)
+    extractor = model.resnet50_extractor(embedding_dim=512).to(device)
+    optimizer = Adam(extractor.parameters(), lr=args.lr, weight_decay=args.weight_decay)
     scheduler = torch.optim.lr_scheduler.StepLR(optimizer, step_size=args.step_size, gamma=args.gamma)
 
     cross_entropy = nn.CrossEntropyLoss(label_smoothing=0.1)
@@ -92,16 +91,16 @@ def main(args):
     best_rank1 = 0.0
 
     for epoch in range(1, args.epochs + 1):
-        avg_loss, global_step = train_epoch(model, train_loader, optimizer, cross_entropy, triplet_loss, device, epoch, writer,
+        avg_loss, global_step = train_epoch(extractor, train_loader, optimizer, cross_entropy, triplet_loss, device, epoch, writer,
                                             global_step)
         print(f"Epoch [{epoch}/{args.epochs}] - Avg Loss: {avg_loss:.4f} - LR: {scheduler.get_last_lr()[0]:.6f}")
 
         if epoch % args.eval_freq == 0 or epoch == args.epochs:
             print("Evaluating...")
-            rank1 = evaluate_rankk(model, query_loader, gallery_loader, device, k=1)
-            rank5 = evaluate_rankk(model, query_loader, gallery_loader, device, k=5)
+            rank1 = evaluate_rankk(extractor, query_loader, gallery_loader, device, k=1)
+            rank5 = evaluate_rankk(extractor, query_loader, gallery_loader, device, k=5)
 
-            mAP = evaluate_map(model, query_loader, gallery_loader, device)
+            mAP = evaluate_map(extractor, query_loader, gallery_loader, device)
 
             writer.add_scalar("Metric/Rank1", rank1, epoch)
             writer.add_scalar("Metric/Rank5", rank5, epoch)
@@ -111,7 +110,7 @@ def main(args):
 
             checkpoint = {
                 'epoch': epoch,
-                'model_state_dict': model.state_dict(),
+                'model_state_dict': extractor.state_dict(),
                 'optimizer_state_dict': optimizer.state_dict(),
                 'scheduler_state_dict': scheduler.state_dict(),
                 'best_rank1': best_rank1
@@ -120,12 +119,12 @@ def main(args):
 
             if rank1 > best_rank1:
                 best_rank1 = rank1
-                torch.save(model.state_dict(), os.path.join(args.save_dir, "best_model.pth"))
+                torch.save(extractor.state_dict(), os.path.join(args.save_dir, "best_model.pth"))
                 print(f"Saved new best model with Rank-1: {best_rank1:.4f}")
 
         scheduler.step()
 
-    torch.save(model.state_dict(), os.path.join(args.save_dir, "last_model.pth"))
+    torch.save(extractor.state_dict(), os.path.join(args.save_dir, "last_model.pth"))
     writer.close()
     print("DONE")
 

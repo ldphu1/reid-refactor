@@ -5,9 +5,7 @@ from PIL import Image
 from torchvision import transforms
 import torch.nn.functional as F
 from ultralytics import YOLO
-from collections import defaultdict
-from model import *
-
+from models import model
 
 def get_transform():
     return transforms.Compose([
@@ -143,7 +141,7 @@ if __name__ == "__main__":
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     print(f"Using device: {device}")
 
-    reid_model = resnet50_extractor(512)
+    reid_model = model.resnet50_extractor(512)
     reid_model.load_state_dict(torch.load(args.model_weights, map_location=device))
     reid_model.to(device)
     reid_model.eval()

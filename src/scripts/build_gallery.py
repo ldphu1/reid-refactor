@@ -1,8 +1,6 @@
 import os
 import argparse
-import torch
 from torchvision import transforms
-import torch.nn.functional as F
 from PIL import Image
 from tqdm import tqdm
 from model import *
