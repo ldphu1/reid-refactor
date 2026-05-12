@@ -5,7 +5,7 @@ Here is my python source code for Person Re-Identification (Re-ID) - a robust sy
 * Extract discriminative 512-dimensional feature embeddings from human images using a custom ResNet-50 network (`model.py`)
 * Train the model using a Batch Hard Triplet and Cross-Entropy Loss to effectively distinguish different identities (`train.py`)
 * Build a feature gallery from a database of known identities (`build_gallery.py`)
-* Run an inference app which detects people using YOLOv8 and identifies/tracks them across frames in a single video file (`demo.py`)
+* Run an inference app which detects people using YOLOv8 and identifies/tracks them across frames in a single video file (`reid_video_demo.py`)
 
 <div align="center">
     <p>
@@ -15,38 +15,51 @@ Here is my python source code for Person Re-Identification (Re-ID) - a robust sy
   <p><i>Some examples of my model's output</i></p>
 </div>
 
-# Person Re-Identification 
+# Setup
+1. Installation
 
-1. Detect people using YOLOv8 (yolov8n.pt)
+Clone the repository and install the required packages:
 
-2. Crop each detected bounding box
+```bash
+git clone [https://github.com/your-username/reid-refactor.git](https://github.com/your-username/reid-refactor.git)
+cd reid-refactor 
+pip install -r requirements.txt
+```
+2. Dataset Preparation
 
-3. Extract embedding using trained ResNet-50
-
-4. Compare with gallery using cosine similarity
-
-5. Assign ID if similarity > threshold (default: 0.6)
-
-**Building a Custom Gallery for Specific Videos**
-
-Instead of using the default Market-1501 dataset, you can easily create custom galleries tailored for your specific videos. 
-
-**1. Prepare the Gallery Folder:** Create a new folder (e.g., `my_custom_gallery/`) and place the reference images of the people you want to track inside it.
-* **Image Format:** All images must be in `.jpg` format.
-  
-* **Naming Convention:** The filename **must** start with the Person ID followed by an underscore `_`. The script parses the ID using the string before the first `_`.
-  
-   *Correct Examples:* `0001_front.jpg`, `0002_camera1.jpg`, `JohnDoe_1.jpg`.
-  
-   *Incorrect Examples:* `front_0001.jpg`, `image1.png`.
-  
-**2. Build the Gallery Features:**
-Extract features from your custom images by pointing the script to your new folder and specifying a custom save path:
-`python3 build_gallery.py --data_dir data/my_custom_gallery/ --save_path weights/my_custom_gallery.pt`.
-
-**3. For video inference:** simply run `python3 demo.py --video_path data/video.avi`. 
-
-  *(Note: You can change the input video path, threshold, and output path inside the arguments of `demo.py`).*
+ Place your datasets in the data/ directory. For example, if using Market-1501:
+```bash
+data/
+    └── Market-1501-v15.09.15/
+    ├── bounding_box_train/
+    ├── bounding_box_test/
+    └── query/
+```
+# Usage Guide
+1. Training
+```bash
+python -m scripts.train 
+```
+2. Building Gallery
+```bash
+python -m scripts.build_gallery 
+```
+Building a Custom Gallery for Specific Videos
+    
+  Instead of using the default Market-1501 dataset, you can easily create custom galleries tailored for your specific videos. 
+    
+  Prepare the Gallery Folder: Create a new folder (e.g., `my_custom_gallery/`) and place the reference images of the people you want to track inside it.
+  * Image Format: All images must be in `.jpg` format.
+      
+  * Naming Convention: The filename **must** start with the Person ID followed by an underscore `_`. The script parses the ID using the string before the first `_`.
+    
+  *Correct Examples:* `0001_front.jpg`, `0002_camera1.jpg`, `JohnDoe_1.jpg`.
+      
+  *Incorrect Examples:* `front_0001.jpg`, `image1.png`.
+3. Running Demo
+```bash
+python -m scripts.reid_video_demo --config configs/default.yaml --video_path path/to/video.mp4
+```
 
 # Dataset
 
@@ -72,15 +85,6 @@ Components:
 * Dropout (p=0.5)
 * L2 normalization
 * Classifier
-
-# Training
-
-You need to download the **Market-1501** dataset and rename directory to `market1501/`.
-1. The training utilizes a custom `triplet_dataset.py` that automatically samples Anchor, Positive, and Negative images for each identity to form training triplets.
-2. If you want to train your model with a different set of hyper-parameters, you only need to change the arguments (like `lr`, `margin`, `step_size`) in `train.py`.
-3. Then you could simply run PyTorch training using the provided script:
-   `python3 train.py --epochs 60 --batch_size 32 --margin 0.3`
-
 # Experiments
 
 I trained the model for 60 epochs using the Adam optimizer, combining Batch Hard Triplet Loss and Cross-Entropy Loss (with label smoothing). The model's performance was monitored using TensorBoard (saved in `weights/`). During training, the model's Rank-1, Rank-5, and mAP are evaluated on the query set every 5 epochs. 
@@ -90,7 +94,26 @@ I trained the model for 60 epochs using the Adam optimizer, combining Batch Hard
 </p>
 
 As shown in the charts above, the loss converges smoothly, and the model achieves impressive final results on the Market-1501 dataset: **Rank-1 accuracy of ~89.2%**, **Rank-5 accuracy of ~95.7%** and **mAP of ~75.5%**. The checkpoint with the highest Rank-1 score is automatically saved as (`best_model.pth`).
-
+## Repository Structure
+ ```bash
+    reid-refactor/
+    ├── configs/            # YAML configuration files (Hyperparameters)
+    ├── data/               # Raw and processed datasets (e.g., Market-1501)
+    ├── models/             # Trained model checkpoints (.pth, .pt)
+    ├── notebooks/          # Jupyter notebooks for EDA and testing
+    ├── scripts/            # Entry point scripts for execution
+    │   ├── train.py
+    │   ├── build_gallery.py
+    │   └── reid_video_demo.py
+    ├── src/                # Core source code (reusable modules)
+    │   ├── dataset.py      # Custom Dataset and Dataloader
+    │   ├── loss.py         # Loss functions (e.g., Triplet Loss)
+    │   ├── metrics.py      # Evaluation metrics (mAP, Rank-1)
+    │   └── models/         # Neural Network architectures
+    │       └── extractor.py
+    ├── requirements.txt    # Project dependencies
+    └── README.md
+ ```
 # Requirements
 
 * python 3.8+
