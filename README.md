@@ -15,18 +15,28 @@ Here is my python source code for Person Re-Identification (Re-ID) - a robust sy
   <p><i>Some examples of my model's output</i></p>
 </div>
 
-# Person Re-Identification 
+# Setup
+1. Installation
+Clone the repository and install the required packages:
 
-1. Detect people using YOLOv8 (yolov8n.pt)
+```bash
+git clone [https://github.com/your-username/reid-refactor.git](https://github.com/your-username/reid-refactor.git)
+cd reid-refactor
 
-2. Crop each detected bounding box
+python -m venv venv
+source venv/bin/activate  # Trên Windows dùng: venv\Scripts\activate
 
-3. Extract embedding using trained ResNet-50
-
-4. Compare with gallery using cosine similarity
-
-5. Assign ID if similarity > threshold (default: 0.6)
-
+pip install -r requirements.txt
+```
+2. Dataset Preparation
+Place your datasets in the data/ directory. For example, if using Market-1501:
+```bash
+data/
+└── Market-1501-v15.09.15/
+    ├── bounding_box_train/
+    ├── bounding_box_test/
+    └── query/
+```
 **Building a Custom Gallery for Specific Videos**
 
   Instead of using the default Market-1501 dataset, you can easily create custom galleries tailored for your specific videos. 
