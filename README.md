@@ -25,7 +25,7 @@ git clone [https://github.com/your-username/reid-refactor.git](https://github.co
 cd reid-refactor 
 pip install -r requirements.txt
 ```
-3. Dataset Preparation
+2. Dataset Preparation
 
  Place your datasets in the data/ directory. For example, if using Market-1501:
 ```bash
