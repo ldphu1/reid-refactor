@@ -19,21 +19,21 @@ Here is my python source code for Person Re-Identification (Re-ID) - a robust sy
 1. Installation
 
 Clone the repository and install the required packages:
-```bash
-    git clone [https://github.com/your-username/reid-refactor.git](https://github.com/your-username/reid-refactor.git)
-    cd reid-refactor 
-    pip install -r requirements.txt
-```
+    ```bash
+        git clone [https://github.com/your-username/reid-refactor.git](https://github.com/your-username/reid-refactor.git)
+        cd reid-refactor 
+        pip install -r requirements.txt
+    ```
 2. Dataset Preparation
    
 Place your datasets in the data/ directory. For example, if using Market-1501:
-```bash
-    data/
-    └── Market-1501-v15.09.15/
-        ├── bounding_box_train/
-        ├── bounding_box_test/
-        └── query/
-```
+    ```bash
+        data/
+        └── Market-1501-v15.09.15/
+            ├── bounding_box_train/
+            ├── bounding_box_test/
+            └── query/
+    ```
 # Usage Guide
 1. Training
     ```bash
