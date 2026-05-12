@@ -20,30 +20,26 @@ Here is my python source code for Person Re-Identification (Re-ID) - a robust sy
 
 Clone the repository and install the required packages:
 
-    ```text
     git clone [https://github.com/your-username/reid-refactor.git](https://github.com/your-username/reid-refactor.git)
     cd reid-refactor 
     pip install -r requirements.txt
-    ```
     
 2. Dataset Preparation
    
 Place your datasets in the data/ directory. For example, if using Market-1501:
 
-    ```text
     data/
     └── Market-1501-v15.09.15/
         ├── bounding_box_train/
         ├── bounding_box_test/
         └── query/
-    ```
     
 # Usage Guide
 1. Training
     ```bash
     python -m scripts.train 
     ```
-2. Building Gallery
+3. Building Gallery
     ```bash
     python -m scripts.build_gallery 
     ```
@@ -59,7 +55,7 @@ Place your datasets in the data/ directory. For example, if using Market-1501:
          *Correct Examples:* `0001_front.jpg`, `0002_camera1.jpg`, `JohnDoe_1.jpg`.
       
          *Incorrect Examples:* `front_0001.jpg`, `image1.png`.
-3. Running Demo
+4. Running Demo
     ```bash
     python -m scripts.reid_video_demo --config configs/default.yaml --video_path path/to/video.mp4
     ```
@@ -98,7 +94,7 @@ I trained the model for 60 epochs using the Adam optimizer, combining Batch Hard
 
 As shown in the charts above, the loss converges smoothly, and the model achieves impressive final results on the Market-1501 dataset: **Rank-1 accuracy of ~89.2%**, **Rank-5 accuracy of ~95.7%** and **mAP of ~75.5%**. The checkpoint with the highest Rank-1 score is automatically saved as (`best_model.pth`).
 ## Repository Structure
-    ```text
+    ```
     reid-refactor/
     ├── configs/            # YAML configuration files (Hyperparameters)
     ├── data/               # Raw and processed datasets (e.g., Market-1501)
