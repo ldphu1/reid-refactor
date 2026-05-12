@@ -29,16 +29,16 @@ Here is my python source code for Person Re-Identification (Re-ID) - a robust sy
 
 **Building a Custom Gallery for Specific Videos**
 
-Instead of using the default Market-1501 dataset, you can easily create custom galleries tailored for your specific videos. 
+  Instead of using the default Market-1501 dataset, you can easily create custom galleries tailored for your specific videos. 
 
-Prepare the Gallery Folder: Create a new folder (e.g., `my_custom_gallery/`) and place the reference images of the people you want to track inside it.
-* **Image Format:** All images must be in `.jpg` format.
+  Prepare the Gallery Folder: Create a new folder (e.g., `my_custom_gallery/`) and place the reference images of the people you want to track inside it.
+  * **Image Format:** All images must be in `.jpg` format.
   
-* **Naming Convention:** The filename **must** start with the Person ID followed by an underscore `_`. The script parses the ID using the string before the first `_`.
+  * **Naming Convention:** The filename **must** start with the Person ID followed by an underscore `_`. The script parses the ID using the string before the first `_`.
   
-   *Correct Examples:* `0001_front.jpg`, `0002_camera1.jpg`, `JohnDoe_1.jpg`.
+     *Correct Examples:* `0001_front.jpg`, `0002_camera1.jpg`, `JohnDoe_1.jpg`.
   
-   *Incorrect Examples:* `front_0001.jpg`, `image1.png`.
+     *Incorrect Examples:* `front_0001.jpg`, `image1.png`.
 
 # Dataset
 
