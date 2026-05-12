@@ -17,6 +17,7 @@ Here is my python source code for Person Re-Identification (Re-ID) - a robust sy
 
 # Setup
 1. Installation
+
 Clone the repository and install the required packages:
 
 ```bash
@@ -29,6 +30,7 @@ source venv/bin/activate  # Trên Windows dùng: venv\Scripts\activate
 pip install -r requirements.txt
 ```
 2. Dataset Preparation
+   
 Place your datasets in the data/ directory. For example, if using Market-1501:
 ```bash
 data/
@@ -46,18 +48,18 @@ data/
     ```bash
     python -m scripts.build_gallery 
     ```
-**Building a Custom Gallery for Specific Videos**
-
-  Instead of using the default Market-1501 dataset, you can easily create custom galleries tailored for your specific videos. 
-
-  Prepare the Gallery Folder: Create a new folder (e.g., `my_custom_gallery/`) and place the reference images of the people you want to track inside it.
-  * Image Format: All images must be in `.jpg` format.
-  
-  * Naming Convention: The filename **must** start with the Person ID followed by an underscore `_`. The script parses the ID using the string before the first `_`.
-
-     *Correct Examples:* `0001_front.jpg`, `0002_camera1.jpg`, `JohnDoe_1.jpg`.
-  
-     *Incorrect Examples:* `front_0001.jpg`, `image1.png`.
+    **Building a Custom Gallery for Specific Videos**
+    
+      Instead of using the default Market-1501 dataset, you can easily create custom galleries tailored for your specific videos. 
+    
+      Prepare the Gallery Folder: Create a new folder (e.g., `my_custom_gallery/`) and place the reference images of the people you want to track inside it.
+      * Image Format: All images must be in `.jpg` format.
+      
+      * Naming Convention: The filename **must** start with the Person ID followed by an underscore `_`. The script parses the ID using the string before the first `_`.
+    
+         *Correct Examples:* `0001_front.jpg`, `0002_camera1.jpg`, `JohnDoe_1.jpg`.
+      
+         *Incorrect Examples:* `front_0001.jpg`, `image1.png`.
 3. Running Demo
     ```bash
     python -m scripts.reid_video_demo --config configs/default.yaml --video_path path/to/video.mp4
