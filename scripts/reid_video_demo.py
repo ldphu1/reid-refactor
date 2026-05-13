@@ -120,7 +120,7 @@ def process_video(reid_model, detector, gallery_data, transform, device):
 
         out.write(frame)
 
-        # cv2.imshow("Re-ID Tracking", frame)
+        cv2.imshow("Re-ID Tracking", frame)
         if cv2.waitKey(1) == 27:
             break
 
