@@ -106,7 +106,7 @@ As shown in the charts above, the loss converges smoothly, and the model achieve
     │   ├── train.py
     │   ├── build_gallery.py
     │   └── reid_video_demo.py
-    ├── src/                # Core source code (reusable modules)
+    ├── src/                
     │   ├── dataset.py      # Custom Dataset and Dataloader
     │   ├── loss.py         # Loss functions (Triplet Loss)
     │   ├── metrics.py      # Evaluation metrics (mAP, Rank-1)
