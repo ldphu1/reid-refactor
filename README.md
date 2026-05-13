@@ -59,7 +59,7 @@ Building a Custom Gallery for Specific Videos
   
 3. Running Demo
 ```bash
-python -m scripts.reid_video_demo --config configs/default.yaml --video_path path/to/video.mp4
+python -m scripts.reid_video_demo 
 ```
 
 # Dataset
