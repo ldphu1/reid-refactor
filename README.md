@@ -56,6 +56,7 @@ Building a Custom Gallery for Specific Videos
   *Correct Examples:* `0001_front.jpg`, `0002_camera1.jpg`, `JohnDoe_1.jpg`.
       
   *Incorrect Examples:* `front_0001.jpg`, `image1.png`.
+  
 3. Running Demo
 ```bash
 python -m scripts.reid_video_demo --config configs/default.yaml --video_path path/to/video.mp4
