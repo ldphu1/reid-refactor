@@ -72,7 +72,7 @@ def log_config(config_path):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Extract and build gallery features for Re-ID")
-    parser.add_argument("--config", type=str, default=r"src/configs/build_gallery_config.yaml")
+    parser.add_argument("--config", type=str, default=r"configs/build_gallery_config.yaml")
     args = parser.parse_args()
 
     cfg = log_config(args.config)

@@ -109,17 +109,18 @@ def process_video(reid_model, detector, gallery_data, transform, device):
             best_idx = torch.argmax(sims, dim=1).item()
             score = sims[0, best_idx].item()
 
+            label_infor = {"avg_emb": avg_emb}
+
             if score > cfg["threshold"]:
                 pid = gallery_ids[best_idx]
                 label_infor = {"PID": pid, "score": score, "color": (0, 255, 0), "avg_emb": avg_emb}
-
-            draw_fancy_bbox(frame, (x1, y1, x2, y2), label_infor["PID"], label_infor["score"], label_infor["color"])
+                draw_fancy_bbox(frame, (x1, y1, x2, y2), label_infor["PID"], label_infor["score"], label_infor["color"])
 
             track_identities[track_id] = label_infor
 
         out.write(frame)
 
-        cv2.imshow("Re-ID Tracking", frame)
+        # cv2.imshow("Re-ID Tracking", frame)
         if cv2.waitKey(1) == 27:
             break
 
@@ -134,7 +135,7 @@ def log_config(config_path):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("--config", type=str, default="src/configs/inference_config.yaml")
+    parser.add_argument("--config", type=str, default="configs/inference_config.yaml")
     args = parser.parse_args()
 
     cfg = log_config(args.config)
@@ -153,5 +154,5 @@ if __name__ == "__main__":
 
     transform = get_transform()
 
-    process_video(args, reid_model, detector, gallery_data, transform, device)
+    process_video(reid_model, detector, gallery_data, transform, device)
     print("DONE")
