@@ -108,7 +108,7 @@ As shown in the charts above, the loss converges smoothly, and the model achieve
     │   └── reid_video_demo.py
     ├── src/                # Core source code (reusable modules)
     │   ├── dataset.py      # Custom Dataset and Dataloader
-    │   ├── loss.py         # Loss functions (e.g., Triplet Loss)
+    │   ├── loss.py         # Loss functions (Triplet Loss)
     │   ├── metrics.py      # Evaluation metrics (mAP, Rank-1)
     │   └── models/         # Neural Network architectures
     │       └── extractor.py
