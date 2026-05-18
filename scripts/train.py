@@ -141,7 +141,7 @@ def log_config(config_path):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Person Re-ID Training Routine")
     parser.add_argument("--config", type=str, default=r"configs/train_config.yaml")
-    args = parser.parse_args()
+    args, unknown = parser.parse_known_args()
 
     cfg = log_config(args.config)
 

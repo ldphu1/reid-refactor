@@ -1,4 +1,4 @@
-video_path: "data/input.mp4"
+video_path: "data/6p-c0.avi"
 output_path: "output_reid.mp4"
 model_weights: "weights/best_model.pth"
 gallery_path: "weights/gallery_market1501.pt"

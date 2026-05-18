@@ -61,9 +61,6 @@ class Evaldataset(Dataset):
             pid = parts[0]
             camid = parts[1][1]
 
-            if pid in ['0000', '-1']:
-                continue
-
             img_path = os.path.join(self.root, img)
 
             self.samples.append((pid, img_path, camid))

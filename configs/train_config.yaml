@@ -4,7 +4,6 @@ log_path: "tensorboard"
 model:
   embedding_dim: 512
   num_classes: 751
-ss
 dataset:
   data_root: "data/Market-1501-v15.09.15"
   batch_size: 32

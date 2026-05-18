@@ -57,7 +57,6 @@ def evaluate_rankk(model, query_loader, gallery_loader, device, k=5):
     return correct / len(query_ids)
 
 def evaluate_map(model, query_loader, gallery_loader, device):
-
     model.eval()
 
     query_embs, query_ids, query_cams = [], [], []
@@ -96,6 +95,7 @@ def evaluate_map(model, query_loader, gallery_loader, device):
         score = sims[i]
 
         keep_mask = ~((gallery_ids == query_ids[i]) & (gallery_cams == query_cams[i]))
+        keep_mask = keep_mask & (gallery_ids != -1)
 
         filtered_scores = score[keep_mask]
         filtered_gallery_ids = gallery_ids[keep_mask]
